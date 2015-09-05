@@ -1,5 +1,5 @@
 # Godville-Tools
- A collection of tool for interacting with the Godville game.
+ A collection of tools for interacting with the Godville game. Most of them will be automation tools like auto Punish or auto Encourage.
 
 # To Run
 You need to have `casperjs`, `nodejs` and `npm` installed globally on your machine (using the `-g` option).
