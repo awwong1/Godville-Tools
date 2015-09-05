@@ -1,0 +1,30 @@
+{
+  "name": "godiville-tools",
+  "version": "1.0.0",
+  "description": "A collection of tool for interacting with the Godville game",
+  "main": "serrver.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tupini07/Godville-Tools.git"
+  },
+  "keywords": [
+    "the",
+    "quick",
+    "brown",
+    "fox",
+    "jumps",
+    "over",
+    "the",
+    "lazy",
+    "dog"
+  ],
+  "author": "Andrea Tupini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tupini07/Godville-Tools/issues"
+  },
+  "homepage": "https://github.com/tupini07/Godville-Tools#readme"
+}
