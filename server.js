@@ -1,5 +1,4 @@
 var x = require('casper').selectXPath;
-var sleep = require('sleep');
 var casper = require('casper').create({
   verbose: false,
   logLevel: "info"
@@ -11,8 +10,8 @@ casper.start('https://godvillegame.com/login/', function() {
 
 casper.waitForSelector("form input[name='username']", function() {
   this.fillSelectors('form[action="/login/login"]', {
-    'input[name = username ]': 'username',
-    'input[name = password ]': 'password',
+    'input[name = username ]': 'user',
+    'input[name = password ]': 'pass',
   });
   this.evaluate(function() {
     $('form').submit();
@@ -21,21 +20,25 @@ casper.waitForSelector("form input[name='username']", function() {
 }, true);
 
 casper.then(function() {
+  var who = this;
 
-  while (true) {
-    this.echo("----Getting the amount of GP", "INFO");
+  var waiting = function(who) {
+    who.wait(200000, function() { //200s wait
+      who.echo("----Getting the amount of GP", "INFO");
 
-    gp = parseInt(this.evaluate(function() {
-      return __utils__.findOne('.gp_val').innerText;
-    }).slice(0, -1));
+      gp = parseInt(pwhoop.evaluate(function() {
+        return __utils__.findOne('.gp_val').innerText;
+      }).slice(0, -1));
 
-    this.echo("The amount of GP is:  " + gp, "PARAMETER");
-    if (gp >= 25) {
-      this.clickLabel("Encourage");
-      this.echo("Encouraged!!", "PARAMETER");
-    }
-		sleep.sleep(60);
+      who.echo("The amount of GP is:  " + gp, "PARAMETER");
+      if (gp >= 25) {
+        who.clickLabel("Encourage");
+        who.echo("Encouraged!!", "PARAMETER");
+      }
+      waiting(who);
+    });
   }
+  waiting(who);
 });
 
 
