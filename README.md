@@ -4,6 +4,8 @@
 # To Run
 You need to have `casperjs`, `nodejs` and `npm` installed globally on your machine (using the `-g` option).
 
+Install the required dependencies with `npm install`.
+
 Then open `server.js` and change the `username` and `password` fields to your own credentials.
 After that you can simply run `casperjs server.js` on the command line and the script will start.
 
