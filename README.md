@@ -9,6 +9,8 @@ Install the required dependencies with `npm install`.
 Then open `server.js` and change the `username` and `password` fields to your own credentials.
 After that you can simply run `casperjs server.js` on the command line and the script will start.
 
+If you wish to stop the script you can do so at any time with `Ctrl+c`
+
 Be sure you have a working internet connection.
 
 # Todo
