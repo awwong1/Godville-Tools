@@ -1,10 +1,21 @@
 var x = require('casper').selectXPath;
+var system = require('system');
 var casper = require('casper').create({
   verbose: false,
   logLevel: "info"
 });
+
 var username = "username";
 var password = "password";
+
+function consoleRead(message) {
+ system.stdout.writeLine(message);
+ var line = system.stdin.readLine();
+ return line;
+}
+
+username = consoleRead("God's Name: ");
+password = consoleRead("Password: ");
 
 casper.start('https://godvillegame.com/login/', function() {
   this.echo("Setting up.....", "INFO");
