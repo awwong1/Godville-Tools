@@ -6,6 +6,11 @@ You need to have `casperjs`, `nodejs` and `npm` installed globally on your machi
 
 After that you can simply run `casperjs server.js` on the command line and the script will start.
 
+The script will ask you for your God's name and password but you also specify them as arguments when running the script:
+
+    casperjs server.js --god=god_name --pass=password
+
+
 If you wish to stop the script you can do so at any time with `Ctrl+c`
 
 Be sure you have a working internet connection.
