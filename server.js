@@ -33,6 +33,9 @@ casper.waitForSelector("form input[name='username']", function() {
     'input[name = password ]': password,
   });
   this.evaluate(function() {
+    if(!document.getElementById('save_login').checked){
+        $('#save_login').click();
+    }
     $('form').submit();
   });
   casper.echo("Logged In!", "COMMENT");
@@ -42,6 +45,7 @@ casper.then(function() {
   var casp = this;
 
   var waiting = function(casp, sleep_time) {
+    casper.reload();
     casp.wait(sleep_time, function() { //200s waitW
 
       try {
@@ -51,7 +55,7 @@ casper.then(function() {
         }).slice(0, -1));
 
         casp.echo("The amount of GP is:  " + gp, "PARAMETER");
-        if (gp >= 25) {
+        if (gp >= 75) { //so it leaves 50 godpower to activate items
           casp.clickLabel("Encourage");
           casp.echo("Encouraged!!", "COMMENT");
           gp -= 25;
@@ -60,10 +64,12 @@ casper.then(function() {
       } catch (err) {
         //still don't know what is actually happening
         casp.echo("Something happened, restarting.. ", "ERROR");
+        casp.echo("Current URL: " + this.getCurrentUrl(), "ERROR");
+        casper.page.render ('page.png');
       }
 
       //if there is still GP left
-      if (gp >= 25)
+      if (gp >= 75)
         waiting(casp, 5000); //just wait 5 seconds
       else
         waiting(casp, 500000); //wait 500 seconds
