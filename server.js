@@ -55,7 +55,7 @@ casper.then(function() {
         }).slice(0, -1));
 
         casp.echo("The amount of GP is:  " + gp, "PARAMETER");
-        if (gp >= 75) { //so it leaves 50 godpower to activate items
+        if (gp >= 25) { //so it leaves 50 godpower to activate items
           casp.clickLabel("Encourage");
           casp.echo("Encouraged!!", "COMMENT");
           gp -= 25;
@@ -69,7 +69,7 @@ casper.then(function() {
       }
 
       //if there is still GP left
-      if (gp >= 75)
+      if (gp >= 25)
         waiting(casp, 5000); //just wait 5 seconds
       else
         waiting(casp, 500000); //wait 500 seconds
