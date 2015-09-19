@@ -7,6 +7,7 @@ var casper = require('casper').create({
 
 var username = "username";
 var password = "password";
+var action = "Encourage";
 
 function consoleRead(message) {
   system.stdout.writeLine(message);
@@ -22,6 +23,27 @@ if (casper.cli.has('god') && casper.cli.has('pass')) {
   username = consoleRead("God's Name: ");
   password = consoleRead("Password: ");
 }
+if (casper.cli.has('action')) {
+  action = casper.cli.get('action').toString();
+} else {
+  var ok = false;
+  while (!ok) {
+    ok = true;
+    var option = consoleRead('Select an action:\n  1- Encourage \n  2- Punish');
+    switch (option) {
+      case '1':
+        action = "Encourage";
+        break;
+      case '2':
+        action = "Punish";
+        break;
+      default:
+        console.log('Invalid option.')
+        ok = false;
+        break;
+    }
+  }
+}
 
 casper.start('https://godvillegame.com/login/', function() {
   this.echo("Setting up.....", "INFO");
@@ -33,8 +55,8 @@ casper.waitForSelector("form input[name='username']", function() {
     'input[name = password ]': password,
   });
   this.evaluate(function() {
-    if(!document.getElementById('save_login').checked){
-        $('#save_login').click();
+    if (!document.getElementById('save_login').checked) {
+      $('#save_login').click();
     }
     $('form').submit();
   });
@@ -65,7 +87,7 @@ casper.then(function() {
         //still don't know what is actually happening
         casp.echo("Something happened, restarting.. ", "ERROR");
         casp.echo("Current URL: " + this.getCurrentUrl(), "ERROR");
-        casper.page.render ('page.png');
+        casper.page.render('page.png');
       }
 
       //if there is still GP left

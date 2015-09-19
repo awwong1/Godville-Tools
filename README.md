@@ -11,6 +11,13 @@ The script will ask you for your God's name and password but you also specify th
     casperjs server.js --god=god_name --pass=password
 
 
+You can specify a number of options:
+
+    --god=god_name
+    --pass=password
+    --action=action   # This can be Encourge or Punish
+
+
 If you wish to stop the script you can do so at any time with `Ctrl+c`
 
 Be sure you have a working internet connection.
@@ -18,7 +25,7 @@ Be sure you have a working internet connection.
 # Todo
 There is a lot to do, for the moment the only thing that it does is 'Encourage' your hero. Some needed features would be:
 <ul>
-  <li>Let the user know if the credentials are incorrect.</li>
-  <li>Ability to choose whether we want to encourage the hero or punish it </li>
+  <li> Let the user know if the credentials are incorrect.</li>
+  <li> Make it so that the user's password is not displayed when it's being typed </li>
   <li> Make a menu that displays all the different options. </li>
 </ul>
