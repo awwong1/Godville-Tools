@@ -19,7 +19,7 @@ function consoleRead(message) {
 if (casper.cli.has('god') && casper.cli.has('pass')) {
   username = casper.cli.get('god').toString();
   password = casper.cli.get('pass').toString();
-} else {
+} else { 
   username = consoleRead("God's Name: ");
   password = consoleRead("Password: ");
 }
@@ -90,8 +90,14 @@ casper.then(function() {
         casper.page.render('page.png');
       }
 
+	if(gp >= 5 && gp < 25){
+	    casp.sendKeys('input[id="god_phrase"]', 'Pray');
+	    casp.click('input[id="submit"]');
+	    gp -= 5;
+	    casp.echo('Pray Command Sent', 'COMMENT');
+	}
       //if there is still GP left
-      if (gp >= 25)
+      if (gp >= 5)
         waiting(casp, 5000); //just wait 5 seconds
       else
         waiting(casp, 500000); //wait 500 seconds
