@@ -1,5 +1,5 @@
 # Godville-Tools
- A script that automates some actions for the game 'Godville' (check it out <a href="http://godvillegame.com/>here</a>). For the moment what it does is auto-punish and auto-encourge, auto god-voice when there is no possibility to either punish or encourage.   
+ A script that automates some actions for the game 'Godville' (check it out <a href="http://godvillegame.com"/>here</a>). For the moment what it does is auto-punish and auto-encourge, auto god-voice when there is no possibility to either punish or encourage.   
 
 # To Run
 You need to have `casperjs`, `nodejs` and `npm` installed globally on your machine (using the `-g` option).
