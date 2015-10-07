@@ -91,10 +91,20 @@ casper.then(function() {
       }
 
 	if(gp >= 5 && gp < 25){
-	    casp.sendKeys('input[id="god_phrase"]', 'Pray');
-	    casp.click('input[id="submit"]');
-	    gp -= 5;
-	    casp.echo('Pray Command Sent', 'COMMENT');
+	    this.sendKeys('input[id="god_phrase"]', 'Pray');
+	    this.click('#voice_submit');
+		casper.waitForSelector("form input[name='god_phrase']", function() {
+  			this.fillSelectors('form[id="god_voice_form"]', {
+    			'input[name = god_phrase ]': 'Pray',
+  			});
+  			this.evaluate(function() {
+    			$('form').submit();
+  			});
+			gp -= 5;
+	    	casp.echo('Pray Command Sent', 'COMMENT');
+		}, true);
+
+	    
 	}
       //if there is still GP left
       if (gp >= 5)
