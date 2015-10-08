@@ -29,4 +29,5 @@ There is a lot to do, for the moment the only thing that it does is 'Encourage' 
   <li> Make it so that the user's password is not displayed when it's being typed </li>
   <li> Make a menu that displays all the different options. </li>
   <li> Give user ability to specify which voice command he wants to send. </li>
+  <li> Show Date and Time for each event that's communicated to the user. </li>
 </ul>
