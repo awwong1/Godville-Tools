@@ -19,7 +19,7 @@ function consoleRead(message) {
 if (casper.cli.has('god') && casper.cli.has('pass')) {
   username = casper.cli.get('god').toString();
   password = casper.cli.get('pass').toString();
-} else { 
+} else {
   username = consoleRead("God's Name: ");
   password = consoleRead("Password: ");
 }
@@ -65,8 +65,7 @@ casper.waitForSelector("form input[name='username']", function() {
 
 casper.then(function() {
   var casp = this;
-
-  var waiting = function(casp, sleep_time) {
+    var waiting = function(casp, sleep_time) {
     casper.reload();
     casp.wait(sleep_time, function() { //200s waitW
 
@@ -90,27 +89,28 @@ casper.then(function() {
         casper.page.render('page.png');
       }
 
-	if(gp >= 5 && gp < 25){
-	    this.sendKeys('input[id="god_phrase"]', 'Pray');
-	    this.click('#voice_submit');
-		casper.waitForSelector("form input[name='god_phrase']", function() {
-  			this.fillSelectors('form[id="god_voice_form"]', {
-    			'input[name = god_phrase ]': 'Pray',
-  			});
-  			this.evaluate(function() {
-    			$('form').submit();
-  			});
-			gp -= 5;
-	    	casp.echo('Pray Command Sent', 'COMMENT');
-		}, true);
+        if(gp >= 5 && gp < 25){
+            if(!casp.visible('#hk_monster_name')){  //if is FIGHTING then don't send god voice
+                casp.sendKeys('input[id="god_phrase"]', 'Pray');
+                casp.click('#voice_submit');
+                casper.waitForSelector("form input[name='god_phrase']", function() {
+                    casp.fillSelectors('form[id="god_voice_form"]', {
+                        'input[name = god_phrase ]': 'Pray',
+                    });
+                    casp.evaluate(function() {
+                        $('form').submit();
+                    });
+                    gp -= 5;
+                    casp.echo('Pray Command Sent', 'COMMENT');
+                }, true);
+            }
+        }
 
-	    
-	}
       //if there is still GP left
       if (gp >= 5)
         waiting(casp, 5000); //just wait 5 seconds
       else
-        waiting(casp, 500000); //wait 500 seconds
+        waiting(casp, 5000);//500000); //wait 500 seconds
 
     });
   };
