@@ -110,7 +110,7 @@ casper.then(function() {
       if (gp >= 5)
         waiting(casp, 5000); //just wait 5 seconds
       else
-        waiting(casp, 5000);//500000); //wait 500 seconds
+        waiting(casp, 500000); //wait 500 seconds
 
     });
   };
