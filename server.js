@@ -89,29 +89,27 @@ casper.then(function() {
         casper.page.render('page.png');
       }
 
-        if(gp >= 5 && gp < 25){
+        if(gp && gp >= 5 && gp < 25){
             if(!casp.visible('#hk_monster_name')){  //if is FIGHTING then don't send god voice
-                casp.sendKeys('input[id="god_phrase"]', 'Pray');
-                casp.click('#voice_submit');
                 casper.waitForSelector("form input[name='god_phrase']", function() {
                     casp.fillSelectors('form[id="god_voice_form"]', {
                         'input[name = god_phrase ]': 'Pray',
                     });
+                    //casp.sendKeys('input[id="god_phrase"]', 'Pray');
                     casp.evaluate(function() {
-                        $('form').submit();
+                        $('form[id="god_voice_form"]').submit();
                     });
+                    casp.click('#voice_submit');
                     gp -= 5;
                     casp.echo('Pray Command Sent', 'COMMENT');
                 }, true);
             }
         }
-
       //if there is still GP left
       if (gp >= 5)
         waiting(casp, 5000); //just wait 5 seconds
       else
-        waiting(casp, 500000); //wait 500 seconds
-
+        waiting(casp, 500000); //wait 500 seconds -> 8.3 minutes
     });
   };
 
