@@ -1,6 +1,8 @@
-var x = require('casper').selectXPath;
-var system = require('system');
-var casper = require('casper').create({
+"use strict";
+
+var x = require("casper").selectXPath;
+var system = require("system");
+var casper = require("casper").create({
   verbose: false,
   logLevel: "info"
 });
@@ -16,107 +18,116 @@ function consoleRead(message) {
 }
 
 //check for arguments
-if (casper.cli.has('god') && casper.cli.has('pass')) {
-  username = casper.cli.get('god').toString();
-  password = casper.cli.get('pass').toString();
+if (casper.cli.has("god") && casper.cli.has("pass")) {
+  username = casper.cli.get("god").toString();
+  password = casper.cli.get("pass").toString();
 } else {
   username = consoleRead("God's Name: ");
   password = consoleRead("Password: ");
 }
-if (casper.cli.has('action')) {
-  action = casper.cli.get('action').toString();
+if (casper.cli.has("action")) {
+  action = casper.cli.get("action").toString();
 } else {
   var ok = false;
   while (!ok) {
     ok = true;
-    var option = consoleRead('Select an action:\n  1- Encourage \n  2- Punish');
+    var option = consoleRead("Select an action:\n  1- Encourage \n  2- Punish");
     switch (option) {
-      case '1':
+      case "1":
         action = "Encourage";
         break;
-      case '2':
+      case "2":
         action = "Punish";
         break;
       default:
-        console.log('Invalid option.')
+        console.log("Invalid option.");
         ok = false;
         break;
     }
   }
 }
 
-casper.start('https://godvillegame.com/login/', function() {
+casper.start("https://godvillegame.com/login/", function() {
   this.echo("Setting up.....", "INFO");
 });
 
-casper.waitForSelector("form input[name='username']", function() {
-  this.fillSelectors('form[action="/login/login"]', {
-    'input[name = username ]': username,
-    'input[name = password ]': password,
-  });
-  this.evaluate(function() {
-    if (!document.getElementById('save_login').checked) {
-      $('#save_login').click();
-    }
-    $('form').submit();
-  });
-  casper.echo("Logged In!", "COMMENT");
-}, true);
+casper.waitForSelector(
+  "form input[name='username']",
+  function() {
+    this.fillSelectors('form[action="/login/login"]', {
+      "input[name = username ]": username,
+      "input[name = password ]": password
+    });
+    this.evaluate(function() {
+      if (!document.getElementById("save_login").checked) {
+        $("#save_login").click();
+      }
+      $("form").submit();
+    });
+    casper.echo("Logged In!", "COMMENT");
+  },
+  true
+);
 
 casper.then(function() {
   var casp = this;
-    var waiting = function(casp, sleep_time) {
+  var gp = null;
+  var waiting = function(casp, sleep_time) {
     casper.reload();
-    casp.wait(sleep_time, function() { //200s waitW
-
+    casp.wait(sleep_time, function() {
+      //200s waitW
       try {
-
-        gp = parseInt(casp.evaluate(function() {
-          return __utils__.findOne('.gp_val').innerText;
-        }).slice(0, -1));
+        gp = parseInt(
+          casp
+            .evaluate(function() {
+              return __utils__.findOne(".gp_val").innerText;
+            })
+            .slice(0, -1)
+        );
 
         casp.echo("The amount of GP is:  " + gp, "PARAMETER");
-        if (gp >= 25) { //so it leaves 50 godpower to activate items
+        if (gp >= 25) {
+          //so it leaves 50 godpower to activate items
           casp.clickLabel("Encourage");
           casp.echo("Encouraged!!", "COMMENT");
           gp -= 25;
         }
-
       } catch (err) {
         //still don't know what is actually happening
         casp.echo("Something happened, restarting.. ", "ERROR");
         casp.echo("Current URL: " + this.getCurrentUrl(), "ERROR");
-        casper.page.render('page.png');
+        casper.page.render("page.png");
       }
 
-        if(gp && gp >= 5 && gp < 25){
-            if(!casp.visible('#hk_monster_name')){  //if is FIGHTING then don't send god voice
-                casper.waitForSelector("form input[name='god_phrase']", function() {
-                    casp.fillSelectors('form[id="god_voice_form"]', {
-                        'input[name = god_phrase ]': 'Pray',
-                    });
-                    //casp.sendKeys('input[id="god_phrase"]', 'Pray');
-                    casp.evaluate(function() {
-                        $('form[id="god_voice_form"]').submit();
-                    });
-                    casp.click('#voice_submit');
-                    gp -= 5;
-                    casp.echo('Pray Command Sent', 'COMMENT');
-                }, true);
-            }
+      if (gp && gp >= 5 && gp < 25) {
+        if (!casp.visible("#hk_monster_name")) {
+          //if is FIGHTING then don't send god voice
+          casper.waitForSelector(
+            "form input[name='god_phrase']",
+            function() {
+              casp.fillSelectors('form[id="god_voice_form"]', {
+                "input[name = god_phrase ]": "Pray"
+              });
+              //casp.sendKeys('input[id="god_phrase"]', 'Pray');
+              casp.evaluate(function() {
+                $('form[id="god_voice_form"]').submit();
+              });
+              casp.click("#voice_submit");
+              gp -= 5;
+              casp.echo("Pray Command Sent", "COMMENT");
+            },
+            true
+          );
         }
+      }
       //if there is still GP left
       if (gp >= 5)
         waiting(casp, 5000); //just wait 5 seconds
-      else
-        waiting(casp, 500000); //wait 500 seconds -> 8.3 minutes
+      else waiting(casp, 500000); //wait 500 seconds -> 8.3 minutes
     });
   };
 
   waiting(casp, 1000);
 });
-
-
-
 
 casper.run();
